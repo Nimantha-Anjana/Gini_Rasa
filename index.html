@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="si" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gini Rasa (ගිනි රස) | Authentic Sri Lankan Chili Pastes & Achcharu</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#080303',
+                            card: '#160a0a',
+                            border: '#331210',
+                            red: '#dc2626',
+                            orange: '#ea580c',
+                            yellow: '#eab308',
+                            amber: '#b45309'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        sinhala: ['Gemunu Libre', 'sans-serif']
+                    },
+                    animation: {
+                        'flame-pulse': 'flame 2s ease-in-out infinite alternate',
+                        'float': 'float 4s ease-in-out infinite',
+                        'glow': 'glow 2.5s infinite alternate',
+                        'shake': 'shake 0.5s ease-in-out'
+                    },
+                    keyframes: {
+                        flame: {
+                            '0%': { transform: 'scale(1)', filter: 'drop-shadow(0 0 10px rgba(239,68,68,0.5))' },
+                            '100%': { transform: 'scale(1.06)', filter: 'drop-shadow(0 0 25px rgba(249,115,22,0.8))' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' }
+                        },
+                        glow: {
+                            '0%': { opacity: '0.4' },
+                            '100%': { opacity: '0.9' }
+                        },
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '20%, 60%': { transform: 'translateX(-5px)' },
+                            '40%, 80%': { transform: 'translateX(5px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a1110;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c;
+        }
+        
+        .glass-panel {
+            background: rgba(22, 10, 10, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(234, 88, 12, 0.2);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(28, 12, 11, 0.85), rgba(12, 5, 5, 0.95));
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(249, 115, 22, 0.6);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 35px -10px rgba(220, 38, 38, 0.35);
+        }
+
+        .text-gradient-fire {
+            background: linear-gradient(135deg, #f97316 0%, #dc2626 50%, #eab308 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .fire-bg-gradient {
+            background: radial-gradient(circle at 50% 20%, rgba(220, 38, 38, 0.22) 0%, rgba(8, 3, 3, 1) 75%);
+        }
+
+        /* Fire particles overlay canvas */
+        #heroCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-[#080303] text-gray-100 font-sans antialiased selection:bg-orange-600 selection:text-white relative overflow-x-hidden">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-orange-950/40 px-4 lg:px-8 py-3 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-red-600 via-orange-500 to-yellow-500 flex items-center justify-center text-white text-xl shadow-lg shadow-orange-600/30 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-fire-flame-curved animate-pulse"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-wider text-gradient-fire font-sinhala leading-none block" id="brandTitle">ගිනි රස</span>
+                    <span class="text-[10px] uppercase tracking-widest text-orange-400 font-bold block">GINI RASA • SRI LANKA</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-300">
+                <a href="#hero" class="hover:text-orange-400 transition-colors" data-i18n="navHome">මුල් පිටුව</a>
+                <a href="#products" class="hover:text-orange-400 transition-colors" data-i18n="navProducts">කෑම වර්ග</a>
+                <a href="#spice-finder" class="hover:text-orange-400 transition-colors" data-i18n="navQuiz">Spice Quiz</a>
+                <a href="#about" class="hover:text-orange-400 transition-colors" data-i18n="navAbout">අපේ කතාව</a>
+                <a href="#contact" class="hover:text-orange-400 transition-colors" data-i18n="navContact">සම්බන්ධ වන්න</a>
+            </nav>
+
+            <!-- Actions: Language Switcher, Call, Cart Button -->
+            <div class="flex items-center gap-3">
+                
+                <!-- Language Toggle Switch -->
+                <button onclick="toggleLanguage()" id="langBtn" class="flex items-center gap-1.5 bg-brand-border/60 hover:bg-orange-950/80 text-xs font-bold text-orange-300 border border-orange-500/30 px-3 py-2 rounded-full transition-all active:scale-95">
+                    <i class="fa-solid fa-globe text-orange-400"></i>
+                    <span id="langText">EN</span>
+                </button>
+
+                <a href="tel:+94771234567" class="hidden sm:flex items-center gap-2 text-xs font-semibold bg-red-950/60 hover:bg-red-900/60 text-red-300 border border-red-800/50 px-3 py-2 rounded-full transition-all">
+                    <i class="fa-solid fa-phone text-orange-400"></i>
+                    <span>077 123 4567</span>
+                </a>
+
+                <button id="cartBtn" class="relative bg-gradient-to-r from-orange-600 via-red-600 to-amber-600 hover:from-orange-500 hover:to-red-500 text-white p-2.5 rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-md shadow-orange-600/30">
+                    <i class="fa-solid fa-basket-shopping text-base"></i>
+                    <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-yellow-400 text-black font-extrabold text-[11px] w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-bounce">0</span>
+                </button>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobileMenuToggle" class="md:hidden text-gray-300 hover:text-white p-2 text-xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-2 border-t border-red-900/30 mt-3 space-y-3 font-sinhala text-center">
+            <a href="#hero" class="block py-2 text-gray-200 hover:text-orange-400 border-b border-white/5" data-i18n="navHome">මුල් පිටුව</a>
+            <a href="#products" class="block py-2 text-gray-200 hover:text-orange-400 border-b border-white/5" data-i18n="navProducts">කෑම වර්ග</a>
+            <a href="#spice-finder" class="block py-2 text-gray-200 hover:text-orange-400 border-b border-white/5" data-i18n="navQuiz">සැර ප්‍රමාණය තෝරන්න</a>
+            <a href="#about" class="block py-2 text-gray-200 hover:text-orange-400 border-b border-white/5" data-i18n="navAbout">අප ගැන</a>
+            <a href="#contact" class="block py-2 text-gray-200 hover:text-orange-400" data-i18n="navContact">සම්බන්ධ කරගන්න</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center fire-bg-gradient overflow-hidden">
+        <!-- Interactive Animated Canvas -->
+        <canvas id="heroCanvas"></canvas>
+
+        <!-- Floating Chili Graphic Elements -->
+        <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden z-10">
+            <div class="absolute top-1/4 left-10 text-6xl text-red-600 animate-float" style="animation-delay: 0s;">🌶️</div>
+            <div class="absolute top-1/3 right-12 text-5xl text-orange-500 animate-float" style="animation-delay: 1.5s;">🔥</div>
+            <div class="absolute bottom-20 left-1/4 text-4xl text-yellow-500 animate-float" style="animation-delay: 0.8s;">🧄</div>
+            <div class="absolute bottom-1/3 right-1/4 text-6xl text-red-500 animate-float" style="animation-delay: 2.2s;">🌶️</div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Column: Copy & CTAs -->
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-gradient-to-r from-red-950/80 to-orange-950/80 border border-orange-500/30 px-4 py-1.5 rounded-full text-xs font-semibold text-orange-300 shadow-inner">
+                    <span class="flex h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
+                    <span data-i18n="heroBadge">100% අතින් සෑදූ පාරම්පරික දේශීය රසය</span> 🇱🇰
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none">
+                    <span data-i18n="heroTitleSub">දිව පිනවන</span> <br>
+                    <span class="text-gradient-fire font-sinhala font-extrabold" data-i18n="heroTitleMain">ගිනි සැර "ගිනි රස"</span>
+                </h1>
+
+                <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-sinhala" data-i18n="heroDesc">
+                    ගෙදර හැදූ නියම කට්ට සම්බෝල, චිලි පේස්ට්, මලේ අච්චාරු සහ සිංහල අච්චාරු වර්ග! කල්තබා ගැනීමේ රසායනික ද්‍රව්‍ය නොමැතිව, පිරිසිදුව අමුද්‍රව්‍ය එක්කර සාදන ලද උසස්ම තත්ත්වයේ අච්චාරු සහ චිලි පේස්ට් දැන් ගෙදරටම ගෙන්නගන්න.
+                </p>
+
+                <!-- Quick Stats / Badges -->
+                <div class="grid grid-cols-3 gap-3 max-w-md mx-auto lg:mx-0 py-2">
+                    <div class="glass-panel p-3 rounded-2xl text-center border-orange-500/20 hover:border-orange-500/50 transition-all">
+                        <span class="block text-2xl font-black text-orange-400">100%</span>
+                        <span class="text-[11px] text-gray-400 font-sinhala" data-i18n="statNatural">ස්වාභාවිකයි</span>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl text-center border-red-500/20 hover:border-red-500/50 transition-all">
+                        <span class="block text-2xl font-black text-red-500">🔥 10+</span>
+                        <span class="text-[11px] text-gray-400 font-sinhala" data-i18n="statFlavors">විශේෂ රසයන්</span>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl text-center border-yellow-500/20 hover:border-yellow-500/50 transition-all">
+                        <span class="block text-2xl font-black text-yellow-400">🚚</span>
+                        <span class="text-[11px] text-gray-400 font-sinhala" data-i18n="statDelivery">දිවයින පුරා Delivery</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#products" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-orange-600 via-red-600 to-amber-600 hover:from-orange-500 hover:to-red-500 text-white font-bold rounded-2xl shadow-xl shadow-red-900/40 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-pepper-hot"></i>
+                        <span class="font-sinhala text-lg" data-i18n="heroCtaMenu">කෑම වර්ග බලන්න (Menu)</span>
+                    </a>
+                    
+                    <a href="#spice-finder" class="w-full sm:w-auto px-6 py-4 glass-panel hover:bg-white/10 text-orange-300 font-semibold rounded-2xl border border-orange-500/30 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-fire text-orange-500"></i>
+                        <span class="font-sinhala" data-i18n="heroCtaQuiz">ඔයාගේ සැර Level එක හොයන්න</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Animated Hero Showcase Card -->
+            <div class="relative flex justify-center z-20">
+                <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-500 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
+
+                <div class="relative w-full max-w-md glass-card rounded-3xl p-6 overflow-hidden border-orange-500/30">
+                    <div class="absolute top-4 right-4 bg-red-600/90 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1 z-10">
+                        <i class="fa-solid fa-crown text-yellow-300"></i> <span data-i18n="bestSeller">BEST SELLER</span>
+                    </div>
+
+                    <!-- Product Image -->
+                    <div class="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-gradient-to-b from-red-950/40 to-black/80 my-2 flex items-center justify-center cursor-pointer" onclick="openQuickView(1)">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80" 
+                             alt="Gini Rasa Signature Chili Paste" 
+                             class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-xs text-yellow-300 font-bold border border-yellow-500/30">
+                            <i class="fa-solid fa-eye"></i> <span data-i18n="quickView">Quick View</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-orange-400 font-semibold uppercase tracking-wider">Chili Paste Special</span>
+                            <div class="flex text-yellow-400 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <span class="ml-1 text-gray-400 font-bold">(4.9)</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-2xl font-bold font-sinhala text-white" id="heroProdTitle">ගිනි රස Signature 🍤 ඉස්සන් චිලි පේස්ට්</h3>
+                        
+                        <p class="text-xs text-gray-400 font-sinhala" id="heroProdDesc">
+                            බැදපු ඉස්සන්, අමු මිරිස්, වියළි මිරිස්, සුදු ළූණු සහ විශේෂ කුළුබඩු මිශ්‍ර කර සාදන ලද අද්විතීය සැර රසය.
+                        </p>
+
+                        <!-- Price & Add Button -->
+                        <div class="flex items-center justify-between pt-2 border-t border-red-900/40">
+                            <div>
+                                <span class="text-xs text-gray-400 block" data-i18n="lblPrice">මිල</span>
+                                <span class="text-2xl font-black text-amber-400">Rs. 950 <span class="text-xs font-normal text-gray-400">/ 350g</span></span>
+                            </div>
+                            
+                            <button onclick="addToCart(1)" class="bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-bold px-5 py-2.5 rounded-xl shadow-lg transition-all active:scale-95 flex items-center gap-2">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span class="font-sinhala" data-i18n="btnAddToCart">Cart එකට</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-[#0a0404] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <div class="inline-flex items-center gap-2 text-orange-400 font-semibold text-sm uppercase tracking-widest bg-orange-950/40 px-4 py-1 rounded-full border border-orange-800/30">
+                    <i class="fa-solid fa-pepper-hot text-red-500"></i> <span data-i18n="secProdBadge">අපගේ රසවත් නිෂ්පාදන</span>
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-black font-sinhala tracking-wide text-white">
+                    <span data-i18n="secProdTitle1">ඔබට ගැලපෙනම</span> <span class="text-gradient-fire" data-i18n="secProdTitle2">ගිනි රසය</span> <span data-i18n="secProdTitle3">තෝරාගන්න</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base font-sinhala" data-i18n="secProdDesc">
+                    පිරිසිදුව අතින් සාදන ලද විශේෂ අච්චාරු, කට්ට සම්බෝල සහ චිලි පේස්ට් එකතුව.
+                </p>
+            </div>
+
+            <!-- Filter Categories & Search Bar -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap justify-center gap-2 w-full md:w-auto" id="categoryFilters">
+                    <button onclick="filterCategory('all')" id="cat-all" class="cat-btn active bg-gradient-to-r from-orange-600 to-red-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all font-sinhala shadow-lg shadow-orange-950/50">
+                        <span data-i18n="catAll">සියල්ල (All)</span>
+                    </button>
+                    <button onclick="filterCategory('paste')" id="cat-paste" class="cat-btn glass-panel text-gray-300 hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all font-sinhala border-red-900/40">
+                        🌶️ <span data-i18n="catPaste">Chili Pastes</span>
+                    </button>
+                    <button onclick="filterCategory('malay')" id="cat-malay" class="cat-btn glass-panel text-gray-300 hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all font-sinhala border-red-900/40">
+                        🥒 <span data-i18n="catMalay">Malay Achcharu</span>
+                    </button>
+                    <button onclick="filterCategory('sinhala')" id="cat-sinhala" class="cat-btn glass-panel text-gray-300 hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all font-sinhala border-red-900/40">
+                        🍋 <span data-i18n="catSinhala">Sinhala Achcharu</span>
+                    </button>
+                    <button onclick="filterCategory('combos')" id="cat-combos" class="cat-btn glass-panel text-gray-300 hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all font-sinhala border-red-900/40">
+                        🎁 <span data-i18n="catCombos">Combo Packs</span>
+                    </button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="searchInput" oninput="searchProducts()" placeholder="නිෂ්පාදන සොයන්න..." class="w-full glass-panel border border-red-900/50 focus:border-orange-500 text-white placeholder-gray-500 text-sm rounded-xl px-4 py-2.5 pl-10 outline-none transition-all font-sinhala">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-500 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Products Grid Container -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Javascript will inject product cards dynamically here -->
+            </div>
+
+            <!-- Empty search warning -->
+            <div id="noResults" class="hidden text-center py-12 glass-panel rounded-3xl space-y-3">
+                <div class="text-4xl">🌶️❓</div>
+                <h3 class="text-xl font-bold font-sinhala text-white" data-i18n="noResultsTitle">කණගාටුයි, එම නමින් නිෂ්පාදනයක් හමුවූයේ නැත.</h3>
+                <p class="text-sm text-gray-400 font-sinhala" data-i18n="noResultsDesc">වෙනත් නමක් සෙවීමට උත්සාහ කරන්න.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Spice Level Quiz Section -->
+    <section id="spice-finder" class="py-16 bg-gradient-to-b from-[#0a0404] via-[#1a0807] to-[#0a0404] relative border-y border-red-950/50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-orange-500/20 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 text-yellow-400 font-bold text-xs uppercase tracking-wider bg-yellow-950/40 px-3 py-1 rounded-full border border-yellow-800/30">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Spice Tolerance Quiz
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-black font-sinhala text-white leading-tight">
+                            <span data-i18n="quizTitle1">ඔයාට ගැලපෙන</span> <span class="text-gradient-fire" data-i18n="quizTitle2">සැර ප්‍රමාණය</span> <span data-i18n="quizTitle3">මොකක්ද?</span>
+                        </h2>
+                        <p class="text-gray-300 text-sm font-sinhala leading-relaxed" data-i18n="quizDesc">
+                            ඔබ කැමති සැර ප්‍රමාණය තෝරන්න. අපේ විශේෂඥයින්ගේ නිර්දේශිත නිෂ්පාදනය ඔබට ලැබෙනු ඇත.
+                        </p>
+                        
+                        <div class="space-y-3 pt-2 font-sinhala">
+                            <label class="block text-xs font-semibold text-gray-400" data-i18n="quizLblSelect">ඔබ කැමති සැර මට්ටම ක්ලික් කරන්න:</label>
+                            
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="selectSpiceLevel(1)" id="spiceLvl1" class="spice-opt-btn border border-yellow-700/50 p-3 rounded-xl text-center glass-panel hover:bg-yellow-950/40 transition-all">
+                                    <span class="block text-xl">🌶️</span>
+                                    <span class="text-xs font-bold text-yellow-400" data-i18n="lvlMedium">මධ්‍යස්ථ (Medium)</span>
+                                </button>
+                                <button onclick="selectSpiceLevel(2)" id="spiceLvl2" class="spice-opt-btn border border-orange-500 p-3 rounded-xl text-center glass-panel bg-orange-950/60 transition-all ring-2 ring-orange-500">
+                                    <span class="block text-xl">🌶️🌶️</span>
+                                    <span class="text-xs font-bold text-orange-400" data-i18n="lvlHot">තද සැර (Hot)</span>
+                                </button>
+                                <button onclick="selectSpiceLevel(3)" id="spiceLvl3" class="spice-opt-btn border border-red-700/50 p-3 rounded-xl text-center glass-panel hover:bg-red-950/40 transition-all">
+                                    <span class="block text-xl">🔥🌶️🔥</span>
+                                    <span class="text-xs font-bold text-red-500" data-i18n="lvlExtreme">ගිනි සැර (Extreme)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation Card Result -->
+                    <div class="glass-card p-6 rounded-2xl border border-orange-500/30 text-center space-y-4" id="quizResultBox">
+                        <span class="text-xs text-orange-400 uppercase font-bold tracking-widest block" data-i18n="quizRecommended">Recommended for You</span>
+                        <div id="recommendedImage" class="w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-orange-500 shadow-xl shadow-red-950">
+                            <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 id="recommendedTitle" class="text-xl font-bold text-white font-sinhala">පාරම්පරික මලේ අච්චාරු (Malay Achcharu)</h4>
+                            <p id="recommendedDesc" class="text-xs text-gray-400 mt-1 font-sinhala">ඔබේ සැර මට්ටමට හොඳින්ම ගැලපෙන රසම කෑම!</p>
+                        </div>
+                        <div id="recommendedPrice" class="text-xl font-extrabold text-amber-400">Rs. 1,100</div>
+                        <button id="addRecommendedBtn" onclick="addToCart(2)" class="w-full py-3 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-bold rounded-xl font-sinhala transition-all shadow-lg shadow-orange-950 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span data-i18n="btnAddToCart">Cart එකට එකතු කරන්න</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative bg-[#080303]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="relative">
+                    <div class="relative rounded-3xl overflow-hidden border border-red-900/40 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80" alt="Authentic Sri Lankan Spices" class="w-full h-[420px] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 p-4 glass-panel rounded-2xl">
+                            <p class="text-sm font-sinhala text-orange-200" data-i18n="aboutQuote">"අපගේ ප්‍රධානම අරමුණ වන්නේ සෑම ශ්‍රී ලාංකික නිවසකටම පාරම්පරික දේශීය රසයෙන් පිරි පිරිසිදුම චිලි පේස්ට් සහ අච්චාරු සැපයීමයි."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 text-orange-400 font-semibold text-xs uppercase tracking-widest bg-orange-950/40 px-3 py-1 rounded-full border border-orange-800/30">
+                        <i class="fa-solid fa-heart text-red-500"></i> <span data-i18n="aboutBadge">අපගේ කතාව (Our Story)</span>
+                    </div>
+                    
+                    <h2 class="text-3xl sm:text-5xl font-black font-sinhala text-white leading-tight">
+                        <span data-i18n="aboutTitle1">"ගිනි රස" පිටුපස ඇති</span> <br>
+                        <span class="text-gradient-fire" data-i18n="aboutTitle2">පාරම්පරික රහස</span>
+                    </h2>
+
+                    <p class="text-gray-300 text-sm sm:text-base font-sinhala leading-relaxed" data-i18n="aboutBody">
+                        වෙළඳපොලේ ඇති කෘතිම රසකාරක සහ කල්තබා ගැනීමේ රසායනික ද්‍රව්‍ය අඩංගු අච්චාරු වලට තිත තබමින්, ස්වාභාවික ගමේ කුළුබඩු, නැවුම් අමුද්‍රව්‍ය සහ ආච්චිගේ පාරම්පරික වට්ටෝරු භාවිතයෙන් අප නිෂ්පාදනය ආරම්භ කළෙමු.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-sinhala pt-2">
+                        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-orange-500 space-y-1">
+                            <h4 class="font-bold text-white text-base" data-i18n="feat1Title">🌱 100% ස්වාභාවික අමුද්‍රව්‍ය</h4>
+                            <p class="text-xs text-gray-400" data-i18n="feat1Desc">කිසිදු කෘතිම වර්ණක හෝ කල්තබාගන්නා ද්‍රව්‍ය යොදා නොගනී.</p>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-red-500 space-y-1">
+                            <h4 class="font-bold text-white text-base" data-i18n="feat2Title">🏺 පාරම්පරික ක්‍රමවේදය</h4>
+                            <p class="text-xs text-gray-400" data-i18n="feat2Desc">නියම දේශීය කුළුබඩු අනුපාතයට සකස් කර රස පදම් කිරීම.</p>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-yellow-500 space-y-1">
+                            <h4 class="font-bold text-white text-base" data-i18n="feat3Title">✨ උසස්ම පිරිසිදුකම</h4>
+                            <p class="text-xs text-gray-400" data-i18n="feat3Desc">සෞඛ්‍යාරක්ෂිත ලෙස අතින් අසුරන ලද ආරක්ෂිත පැකේජ.</p>
+                        </div>
+
+                        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-amber-500 space-y-1">
+                            <h4 class="font-bold text-white text-base" data-i18n="feat4Title">🚀 ඉක්මන් Delivery</h4>
+                            <p class="text-xs text-gray-400" data-i18n="feat4Desc">ඔබ ඇණවුම් කර පැය 24-48 අතර ඔබේ නිවසටම.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews / Testimonials Section -->
+    <section class="py-16 bg-[#0c0505]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs uppercase tracking-widest text-orange-400 font-bold block mb-2">Customer Feedback</span>
+                <h2 class="text-3xl font-black font-sinhala text-white" data-i18n="reviewsTitle">අපේ පාරිභෝගිකයින්ගේ අදහස් 💬</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-300 font-sinhala" data-i18n="rev1Text">"අම්මෝ ඉස්සන් චිලි පේස්ට් එක නම් සුපිරිම සුපිරි! නියම සැර, කඩෙන් ගන්න අනිත් ඒවා වගේ තෙල් විතරක් නෙමෙයි ඉස්සන් රහ හොඳටම තියෙනවා."</p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-9 h-9 rounded-full bg-red-800 flex items-center justify-center font-bold text-xs text-white">කමල්</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white font-sinhala">කමල් පෙරේරා</h5>
+                            <span class="text-[11px] text-gray-400">කොළඹ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-300 font-sinhala" data-i18n="rev2Text">"මලේ අච්චාරු එක නියම පදමට තියෙනවා. පැණි රහයි සැරයි එකට මිශ්‍ර වෙලා නියම රසයක්! ආයෙත් ගන්නවා අනිවාර්යයෙන්ම."</p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-9 h-9 rounded-full bg-orange-800 flex items-center justify-center font-bold text-xs text-white">නිමාලි</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white font-sinhala">නිමාලි ප්‍රනාන්දු</h5>
+                            <span class="text-[11px] text-gray-400">මහනුවර</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-6 rounded-2xl space-y-3">
+                    <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-sm text-gray-300 font-sinhala" data-i18n="rev3Text">"Delivery එකත් ගොඩක් ඉක්මන්. WhatsApp එකෙන් Order කරපු ගමන් Confirmation එක ආවා. 100% recommended!"</p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-9 h-9 rounded-full bg-yellow-800 flex items-center justify-center font-bold text-xs text-white">දිනුක්</div>
+                        <div>
+                            <h5 class="text-sm font-bold text-white font-sinhala">දිනුක් වික්‍රමසිංහ</h5>
+                            <span class="text-[11px] text-gray-400">ගාල්ල</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Order Section -->
+    <section id="contact" class="py-20 bg-[#080303] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-red-900/40 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="space-y-6">
+                        <span class="text-xs uppercase tracking-widest text-orange-400 font-bold block">Order & Support</span>
+                        <h2 class="text-3xl sm:text-5xl font-black font-sinhala text-white" data-i18n="contactTitle">
+                            අපව සම්බන්ධ කරගන්නේ කෙසේද?
+                        </h2>
+                        <p class="text-gray-300 text-sm font-sinhala leading-relaxed" data-i18n="contactDesc">
+                            ඔබට අවශ්‍ය ඕනෑම අච්චාරු හෝ චිලි පේස්ට් වර්ගයක් අපගේ WhatsApp අංකය හරහා හෝ දුරකථන මාර්ගයෙන් කෙලින්ම ඇණවුම් කළ හැක.
+                        </p>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-green-950 border border-green-800/50 flex items-center justify-center text-green-400 text-xl">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-400 block font-sinhala" data-i18n="lblWhatsapp">WhatsApp ඇණවුම් සඳහා</span>
+                                    <a href="https://wa.me/94771234567" target="_blank" class="text-lg font-bold text-white hover:text-green-400 transition-colors">+94 77 123 4567</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-red-950 border border-red-800/50 flex items-center justify-center text-red-400 text-xl">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-400 block font-sinhala" data-i18n="lblPhone">දුරකථන අංකය</span>
+                                    <a href="tel:+94771234567" class="text-lg font-bold text-white hover:text-red-400 transition-colors">077 123 4567 / 011 234 5678</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-orange-950 border border-orange-800/50 flex items-center justify-center text-orange-400 text-xl">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-400 block font-sinhala" data-i18n="lblAddress">ලිපිනය (Location)</span>
+                                    <span class="text-sm font-bold text-white font-sinhala" data-i18n="valAddress">නො. 142, ගාලු පාර, කොළඹ 03, ශ්‍රී ලංකාව.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Order Note / Delivery Info -->
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-bold font-sinhala text-white" data-i18n="delivTitle">🚚 දිවයින පුරා බෙදාහැරීම් (Islandwide Delivery)</h3>
+                            <ul class="space-y-2 text-xs text-gray-300 font-sinhala">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-green-400"></i> <span data-i18n="delivPoint1">Cash on Delivery (භාණ්ඩ ලැබුණු පසු මුදල් ගෙවීම) පහසුකම් ඇත.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-green-400"></i> <span data-i18n="delivPoint2">කොළඹ සහ තදාසන්න ප්‍රදේශ සඳහා පැය 24ක් ඇතුලත Delivery.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-check text-green-400"></i> <span data-i18n="delivPoint3">විශේෂ රක්ෂිත බෝතල් ඇසුරුම් (Breakage Proof Packaging).</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <a href="https://wa.me/94771234567?text=Hello%20Gini%20Rasa!%20I%20want%20to%20inquire%20about%20your%20products." target="_blank" class="w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl font-sinhala text-center text-lg flex items-center justify-center gap-3 shadow-xl shadow-green-950 transition-all">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span data-i18n="btnDirectWhatsapp">WhatsApp හරහා දැන්ම කතා කරන්න</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4">
+        <div onclick="closeQuickView()" class="absolute inset-0 bg-black/80 backdrop-blur-md"></div>
+        
+        <div class="relative w-full max-w-2xl glass-panel rounded-3xl p-6 sm:p-8 border border-orange-500/40 shadow-2xl z-10 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl w-9 h-9 rounded-full bg-black/40 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                <div class="h-64 rounded-2xl overflow-hidden bg-black/50">
+                    <img id="qvImage" src="" class="w-full h-full object-cover">
+                </div>
+
+                <div class="space-y-4">
+                    <div id="qvSpiceMeter" class="text-xs font-bold text-red-400 bg-red-950/60 border border-red-800/40 px-3 py-1 rounded-full inline-block"></div>
+                    <h3 id="qvTitle" class="text-2xl font-bold text-white font-sinhala"></h3>
+                    <p id="qvDesc" class="text-xs text-gray-300 font-sinhala leading-relaxed"></p>
+                    
+                    <div class="glass-panel p-3 rounded-xl border-orange-500/20 text-xs text-gray-300 space-y-1 font-sinhala">
+                        <div><strong>📦 බර/ප්‍රමාණය:</strong> <span id="qvWeight"></span></div>
+                        <div><strong>🌿 අමුද්‍රව්‍ය:</strong> <span id="qvIngredients"></span></div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <span id="qvPrice" class="text-2xl font-black text-amber-400"></span>
+                        <button id="qvAddToCartBtn" class="bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm font-sinhala shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-cart-plus"></i> <span data-i18n="btnAddToCart">Cart එකට</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal Drawer -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300">
+        <!-- Overlay backdrop -->
+        <div onclick="toggleCart()" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+        <!-- Drawer Content -->
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-[#120706] border-l border-red-900/40 p-6 flex flex-col justify-between shadow-2xl transform translate-x-full transition-transform duration-300" id="cartContainer">
+            
+            <!-- Cart Header -->
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-red-900/30">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-basket-shopping text-orange-500 text-xl"></i>
+                        <h3 class="text-xl font-bold font-sinhala text-white" data-i18n="cartHeading">ඔබගේ Cart එක (Shopping Cart)</h3>
+                    </div>
+                    <button onclick="toggleCart()" class="text-gray-400 hover:text-white text-xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List Container -->
+                <div id="cartItemsList" class="my-4 space-y-3 max-h-[42vh] overflow-y-auto pr-1">
+                    <!-- Items rendered dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Cart Footer & Checkout -->
+            <div class="border-t border-red-900/40 pt-4 space-y-3">
+                <!-- Promo Code Box -->
+                <div class="flex gap-2">
+                    <input type="text" id="promoInput" placeholder="Promo Code (Try: GINI10)" class="flex-1 glass-panel border border-red-900/50 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 outline-none uppercase font-semibold">
+                    <button onclick="applyPromo()" class="bg-orange-600 hover:bg-orange-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs font-sinhala">Apply</button>
+                </div>
+
+                <div class="space-y-1 font-sinhala text-xs">
+                    <div class="flex items-center justify-between text-gray-400">
+                        <span data-i18n="lblSubtotal">එකතුව (Subtotal):</span>
+                        <span id="cartSubtotal" class="font-bold text-white">Rs. 0</span>
+                    </div>
+                    <div id="discountRow" class="flex items-center justify-between text-green-400 hidden">
+                        <span>වට්ටම (10% Discount):</span>
+                        <span id="cartDiscount">-Rs. 0</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm pt-1 border-t border-white/10">
+                        <span class="text-white font-bold" data-i18n="lblTotal">මුළු ගාන (Total):</span>
+                        <span id="cartTotal" class="text-2xl font-black text-amber-400">Rs. 0</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2 pt-1">
+                    <label class="block text-xs text-gray-400 font-sinhala" data-i18n="lblAddressPrompt">ඔබගේ නම සහ බෙදාහැරිය යුතු ලිපිනය:</label>
+                    <input type="text" id="custName" placeholder="ඔබගේ නම (Your Name)" class="w-full glass-panel border border-red-900/50 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 outline-none focus:border-orange-500 font-sinhala">
+                    <textarea id="custAddress" placeholder="ලිපිනය සහ දුරකථන අංකය" rows="2" class="w-full glass-panel border border-red-900/50 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 outline-none focus:border-orange-500 font-sinhala"></textarea>
+                </div>
+
+                <button onclick="checkoutWhatsApp()" class="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold rounded-xl font-sinhala flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span data-i18n="btnSendWhatsapp">WhatsApp හරහා Order එක යවන්න</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 glass-panel border border-green-500/50 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-green-400 text-xl"></i>
+        <span id="toastMsg" class="text-sm font-semibold text-white font-sinhala">කෑම වර්ගය Cart එකට එකතු විය!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#040202] border-t border-red-950/60 py-10 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-red-600 to-orange-500 flex items-center justify-center text-white text-sm">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <span class="text-xl font-black font-sinhala text-gradient-fire">ගිනි රස (GINI RASA)</span>
+            </div>
+            
+            <p class="text-xs text-gray-500 font-sinhala max-w-md mx-auto" data-i18n="footerDesc">
+                ශ්‍රී ලංකාවේ ප්‍රමුඛතම පාරම්පරික චිලි පේස්ට් සහ අච්චාරු සන්නාමය. 100% දේශීය රසය.
+            </p>
+
+            <div class="flex justify-center gap-6 text-lg text-gray-400 pt-2">
+                <a href="#" class="hover:text-orange-400"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-orange-400"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-orange-400"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-orange-400"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+
+            <div class="text-xs text-gray-600 border-t border-white/5 pt-6 font-sinhala">
+                © 2026 Gini Rasa Sri Lanka. All Rights Reserved. Prepared with ❤️ for Sri Lankan spice lovers.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Database
+        let currentLang = 'si';
+
+        const i18n = {
+            si: {
+                navHome: "මුල් පිටුව",
+                navProducts: "කෑම වර්ග",
+                navQuiz: "Spice Quiz",
+                navAbout: "අපේ කතාව",
+                navContact: "සම්බන්ධ වන්න",
+                heroBadge: "100% අතින් සෑදූ පාරම්පරික දේශීය රසය",
+                heroTitleSub: "දිව පිනවන",
+                heroTitleMain: "ගිනි සැර \"ගිනි රස\"",
+                heroDesc: "ගෙදර හැදූ නියම කට්ට සම්බෝල, චිලි පේස්ට්, මලේ අච්චාරු සහ සිංහල අච්චාරු වර්ග! කල්තබා ගැනීමේ රසායනික ද්‍රව්‍ය නොමැතිව, පිරිසිදුව අමුද්‍රව්‍ය එක්කර සාදන ලද උසස්ම තත්ත්වයේ අච්චාරු සහ චිලි පේස්ට් දැන් ගෙදරටම ගෙන්නගන්න.",
+                statNatural: "ස්වාභාවිකයි",
+                statFlavors: "විශේෂ රසයන්",
+                statDelivery: "දිවයින පුරා Delivery",
+                heroCtaMenu: "කෑම වර්ග බලන්න (Menu)",
+                heroCtaQuiz: "ඔයාගේ සැර Level එක හොයන්න",
+                bestSeller: "BEST SELLER",
+                quickView: "විස්තර බලන්න",
+                lblPrice: "මිල",
+                btnAddToCart: "Cart එකට",
+                secProdBadge: "අපගේ රසවත් නිෂ්පාදන",
+                secProdTitle1: "ඔබට ගැලපෙනම",
+                secProdTitle2: "ගිනි රසය",
+                secProdTitle3: "තෝරාගන්න",
+                secProdDesc: "පිරිසිදුව අතින් සාදන ලද විශේෂ අච්චාරු, කට්ට සම්බෝල සහ චිලි පේස්ට් එකතුව.",
+                catAll: "සියල්ල (All)",
+                catPaste: "Chili Pastes",
+                catMalay: "Malay Achcharu",
+                catSinhala: "Sinhala Achcharu",
+                catCombos: "Combo Packs",
+                noResultsTitle: "කණගාටුයි, එම නමින් නිෂ්පාදනයක් හමුවූයේ නැත.",
+                noResultsDesc: "වෙනත් නමක් සෙවීමට උත්සාහ කරන්න.",
+                quizTitle1: "ඔයාට ගැලපෙන",
+                quizTitle2: "සැර ප්‍රමාණය",
+                quizTitle3: "මොකක්ද?",
+                quizDesc: "ඔබ කැමති සැර ප්‍රමාණය තෝරන්න. අපේ විශේෂඥයින්ගේ නිර්දේශිත නිෂ්පාදනය ඔබට ලැබෙනු ඇත.",
+                quizLblSelect: "ඔබ කැමති සැර මට්ටම ක්ලික් කරන්න:",
+                lvlMedium: "මධ්‍යස්ථ (Medium)",
+                lvlHot: "තද සැර (Hot)",
+                lvlExtreme: "ගිනි සැර (Extreme)",
+                quizRecommended: "Recommended for You",
+                aboutQuote: "\"අපගේ ප්‍රධානම අරමුණ වන්නේ සෑම ශ්‍රී ලාංකික නිවසකටම පාරම්පරික දේශීය රසයෙන් පිරි පිරිසිදුම චිලි පේස්ට් සහ අච්චාරු සැපයීමයි.\"",
+                aboutBadge: "අපගේ කතාව (Our Story)",
+                aboutTitle1: "\"ගිනි රස\" පිටුපස ඇති",
+                aboutTitle2: "පාරම්පරික රහස",
+                aboutBody: "වෙළඳපොලේ ඇති කෘතිම රසකාරක සහ කල්තබා ගැනීමේ රසායනික ද්‍රව්‍ය අඩංගු අච්චාරු වලට තිත තබමින්, ස්වාභාවික ගමේ කුළුබඩු, නැවුම් අමුද්‍රව්‍ය සහ ආච්චිගේ පාරම්පරික වට්ටෝරු භාවිතයෙන් අප නිෂ්පාදනය ආරම්භ කළෙමු.",
+                feat1Title: "🌱 100% ස්වාභාවික අමුද්‍රව්‍ය",
+                feat1Desc: "කිසිදු කෘතිම වර්ණක හෝ කල්තබාගන්නා ද්‍රව්‍ය යොදා නොගනී.",
+                feat2Title: "🏺 පාරම්පරික ක්‍රමවේදය",
+                feat2Desc: "නියම දේශීය කුළුබඩු අනුපාතයට සකස් කර රස පදම් කිරීම.",
+                feat3Title: "✨ උසස්ම පිරිසිදුකම",
+                feat3Desc: "සෞඛ්‍යාරක්ෂිත ලෙස අතින් අසුරන ලද ආරක්ෂිත පැකේජ.",
+                feat4Title: "🚀 ඉක්මන් Delivery",
+                feat4Desc: "ඔබ ඇණවුම් කර පැය 24-48 අතර ඔබේ නිවසටම.",
+                reviewsTitle: "අපේ පාරිභෝගිකයින්ගේ අදහස් 💬",
+                rev1Text: "\"අම්මෝ ඉස්සන් චිලි පේස්ට් එක නම් සුපිරිම සුපිරි! නියම සැර, කඩෙන් ගන්න අනිත් ඒවා වගේ තෙල් විතරක් නෙමෙයි ඉස්සන් රහ හොඳටම තියෙනවා.\"",
+                rev2Text: "\"මලේ අච්චාරු එක නියම පදමට තියෙනවා. පැණි රහයි සැරයි එකට මිශ්‍ර වෙලා නියම රසයක්! ආයෙත් ගන්නවා අනිවාර්යයෙන්ම.\"",
+                rev3Text: "\"Delivery එකත් ගොඩක් ඉක්මන්. WhatsApp එකෙන් Order කරපු ගමන් Confirmation එක ආවා. 100% recommended!\"",
+                contactTitle: "අපව සම්බන්ධ කරගන්නේ කෙසේද?",
+                contactDesc: "ඔබට අවශ්‍ය ඕනෑම අච්චාරු හෝ චිලි පේස්ට් වර්ගයක් අපගේ WhatsApp අංකය හරහා හෝ දුරකථන මාර්ගයෙන් කෙලින්ම ඇණවුම් කළ හැක.",
+                lblWhatsapp: "WhatsApp ඇණවුම් සඳහා",
+                lblPhone: "දුරකථන අංකය",
+                lblAddress: "ලිපිනය (Location)",
+                valAddress: "නො. 142, ගාලු පාර, කොළඹ 03, ශ්‍රී ලංකාව.",
+                delivTitle: "🚚 දිවයින පුරා බෙදාහැරීම් (Islandwide Delivery)",
+                delivPoint1: "Cash on Delivery (භාණ්ඩ ලැබුණු පසු මුදල් ගෙවීම) පහසුකම් ඇත.",
+                delivPoint2: "කොළඹ සහ තදාසන්න ප්‍රදේශ සඳහා පැය 24ක් ඇතුලත Delivery.",
+                delivPoint3: "විශේෂ රක්ෂිත බෝතල් ඇසුරුම් (Breakage Proof Packaging).",
+                btnDirectWhatsapp: "WhatsApp හරහා දැන්ම කතා කරන්න",
+                cartHeading: "ඔබගේ Cart එක (Shopping Cart)",
+                lblSubtotal: "එකතුව (Subtotal):",
+                lblTotal: "මුළු ගාන (Total):",
+                lblAddressPrompt: "ඔබගේ නම සහ බෙදාහැරිය යුතු ලිපිනය:",
+                btnSendWhatsapp: "WhatsApp හරහා Order එක යවන්න",
+                footerDesc: "ශ්‍රී ලංකාවේ ප්‍රමුඛතම පාරම්පරික චිලි පේස්ට් සහ අච්චාරු සන්නාමය. 100% දේශීය රසය."
+            },
+            en: {
+                navHome: "Home",
+                navProducts: "Products",
+                navQuiz: "Spice Quiz",
+                navAbout: "Our Story",
+                navContact: "Contact",
+                heroBadge: "100% Handmade Traditional Recipe",
+                heroTitleSub: "Mouth-Watering",
+                heroTitleMain: "Fiery Hot \"Gini Rasa\"",
+                heroDesc: "Authentic homemade Katta Sambal, Shrimp Chili Paste, Malay Pickle & Sinhala Pickles! Preservative-free, made with natural ingredients. Order fresh glass jar packs straight to your doorstep.",
+                statNatural: "Natural",
+                statFlavors: "Unique Flavors",
+                statDelivery: "Islandwide Delivery",
+                heroCtaMenu: "Explore Menu",
+                heroCtaQuiz: "Find Your Spice Level",
+                bestSeller: "BEST SELLER",
+                quickView: "Quick View",
+                lblPrice: "Price",
+                btnAddToCart: "Add to Cart",
+                secProdBadge: "Our Hot Collection",
+                secProdTitle1: "Pick Your",
+                secProdTitle2: "Fiery Taste",
+                secProdTitle3: "Today",
+                secProdDesc: "Hygienically hand-crafted chili pastes, sambals, and authentic pickles.",
+                catAll: "All Items",
+                catPaste: "Chili Pastes",
+                catMalay: "Malay Pickle",
+                catSinhala: "Sinhala Pickle",
+                catCombos: "Combo Packs",
+                noResultsTitle: "Sorry, no matching spicy treat found.",
+                noResultsDesc: "Try searching with a different term.",
+                quizTitle1: "Find Your",
+                quizTitle2: "Spice Tolerance",
+                quizTitle3: "Level",
+                quizDesc: "Choose your heat preference and our spice masters will recommend the best jar for you.",
+                quizLblSelect: "Click your heat level:",
+                lvlMedium: "Medium Spice",
+                lvlHot: "Hot Spice",
+                lvlExtreme: "Extreme Heat",
+                quizRecommended: "Recommended for You",
+                aboutQuote: "\"Our primary passion is delivering fresh, unadulterated traditional spicy flavors to every Sri Lankan home.\"",
+                aboutBadge: "Our Story",
+                aboutTitle1: "The Secret Behind",
+                aboutTitle2: "Gini Rasa Flavour",
+                aboutBody: "Moving away from commercial artificial flavors and chemical preservatives, we crafted our recipes using natural rural spices and grandmother's heirloom techniques.",
+                feat1Title: "🌱 100% Natural Ingredients",
+                feat1Desc: "Zero artificial food coloring or chemical preservatives.",
+                feat2Title: "🏺 Traditional Crafting",
+                feat2Desc: "Slow-seasoned with carefully proportioned Sri Lankan spices.",
+                feat3Title: "✨ Utmost Hygiene",
+                feat3Desc: "Packed safely in glass jars following strict food safety standards.",
+                feat4Title: "🚀 Express Delivery",
+                feat4Desc: "Delivered within 24-48 hours right to your doorstep.",
+                reviewsTitle: "What Our Customers Say 💬",
+                rev1Text: "\"The Shrimp Chili Paste is unbelievable! Real fried shrimp crunch with unmatched fiery heat instead of just oil.\"",
+                rev2Text: "\"Malay Achcharu is seasoned to perfection. Sweet, tangy, and spicy balanced so nicely.\"",
+                rev3Text: "\"Super fast delivery! Confirmation came instantly over WhatsApp. 100% recommended!\"",
+                contactTitle: "How to Contact & Order?",
+                contactDesc: "Order any chili paste or pickle jar directly via WhatsApp or call us on phone.",
+                lblWhatsapp: "WhatsApp Orders",
+                lblPhone: "Phone Hotline",
+                lblAddress: "Address",
+                valAddress: "No. 142, Galle Road, Colombo 03, Sri Lanka.",
+                delivTitle: "🚚 Islandwide Fast Delivery",
+                delivPoint1: "Cash on Delivery (COD) available everywhere.",
+                delivPoint2: "Within 24 hours delivery for Colombo & Suburbs.",
+                delivPoint3: "Breakage-proof bubble wrapping for all glass jars.",
+                btnDirectWhatsapp: "Chat on WhatsApp Now",
+                cartHeading: "Your Shopping Cart",
+                lblSubtotal: "Subtotal:",
+                lblTotal: "Total Amount:",
+                lblAddressPrompt: "Enter your name & delivery address:",
+                btnSendWhatsapp: "Place Order via WhatsApp",
+                footerDesc: "Sri Lanka's leading authentic chili paste & pickle brand. 100% local taste."
+            }
+        };
+
+        // Product Catalog
+        const products = [
+            {
+                id: 1,
+                name_si: "ගිනි රස Signature ඉස්සන් චිලි පේස්ට්",
+                name_en: "Gini Rasa Signature Shrimp Chili Paste",
+                category: "paste",
+                price: 950,
+                weight: "350g",
+                spiceLevel: 3,
+                image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80",
+                desc_si: "බැදපු ඉස්සන්, අමු මිරිස්, සුදු ළූණු සහ රහස් කුළුබඩු මිශ්‍ර කළ ප්‍රණීත චිලි පේස්ට් එක.",
+                desc_en: "Crispy fried prawns, red chili, garlic, and secret spices blended to perfection.",
+                ingredients_si: "ඉස්සන්, වියළි මිරිස්, සුදු ළූණු, ඉඟුරු, තල තෙල්",
+                ingredients_en: "Dried prawns, chili flakes, garlic, ginger, sesame oil"
+            },
+            {
+                id: 2,
+                name_si: "පාරම්පරික මලේ අච්චාරු (Malay Achcharu)",
+                name_en: "Traditional Malay Pickle (Malay Achcharu)",
+                category: "malay",
+                price: 1100,
+                weight: "400g",
+                spiceLevel: 2,
+                image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=600&q=80",
+                desc_si: "රතු ළූණු, රටඉඳි, අමු මිරිස් සහ අබ මිශ්‍රණයෙන් සැකසූ නියම මලේ අච්චාරු රහය.",
+                desc_en: "Shallots, dates, green chilis, mustard paste in authentic sweet-spicy vinegar.",
+                ingredients_si: "රතු ළූණු, රටඉඳි, අබ, විනාකිරි, අමු මිරිස්",
+                ingredients_en: "Shallots, dates, mustard, vinegar, green chilis"
+            },
+            {
+                id: 3,
+                name_si: "ගැමි ඇඹරැල්ලා අච්චාරු (Amberella Pickle)",
+                name_en: "Village Style Amberella Pickle",
+                category: "sinhala",
+                price: 850,
+                weight: "400g",
+                spiceLevel: 2,
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80",
+                desc_si: "ඇඹුල් සහ සැර පදමට පදම් කළ ගැමි ක්‍රමයේ ඇඹරැල්ලා අච්චාරු.",
+                desc_en: "Spicy and tangy amberella simmered with rural roasted spices.",
+                ingredients_si: "නැවුම් ඇඹරැල්ලා, මිරිස් කුඩු, අබ, සීනි",
+                ingredients_en: "Fresh amberella, roasted chili, mustard, spices"
+            },
+            {
+                id: 4,
+                name_si: "කල්ගත කළ දෙහි අච්චාරු (Lime Pickle)",
+                name_en: "Sun-Cured Lime Pickle",
+                category: "sinhala",
+                price: 750,
+                weight: "350g",
+                spiceLevel: 3,
+                image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80",
+                desc_si: "අව්වේ වියළා පදම් කළ නියම ගැමි දෙහි අච්චාරුව. බත් පතට කියාපු රසය!",
+                desc_en: "Traditional sun-cured lime pickle packed with fiery red chili.",
+                ingredients_si: "පදම් කළ දෙහි, මිරිස්, උළුහාල්, අබ",
+                ingredients_en: "Cured lime, chili, fenugreek, mustard"
+            },
+            {
+                id: 5,
+                name_si: "නයි මිරිස් Extra Hot Chili Paste",
+                name_en: "Nai Miris Extra Hot Chili Paste",
+                category: "paste",
+                price: 1250,
+                weight: "300g",
+                spiceLevel: 3,
+                image: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=600&q=80",
+                desc_si: "නැවුම් නයි මිරිස් යොදා සෑදූ ගිනි සැර අභියෝගයට කැමති අයට විශේෂිත පේස්ට් එක.",
+                desc_en: "Extremely spicy chili paste made with fresh Scotch Bonnet chilis.",
+                ingredients_si: "නයි මිරිස්, සුදු ළූණු, තෙල්, විනාකිරි, කුළුබඩු",
+                ingredients_en: "Scotch Bonnet chilis, garlic, oil, vinegar, salt"
+            },
+            {
+                id: 6,
+                name_si: "Gini Family Combo Pack (3 in 1)",
+                name_en: "Gini Family Trio Combo Pack",
+                category: "combos",
+                price: 2600,
+                weight: "1.1kg Total",
+                spiceLevel: 2,
+                image: "https://images.unsplash.com/photo-1514944288352-fffac99f0bdf?auto=format&fit=crop&w=600&q=80",
+                desc_si: "ඉස්සන් චිලි පේස්ට් + මලේ අච්චාරු + දෙහි අච්චාරු විශේෂ වට්ටම් Combo පැකේජය.",
+                desc_en: "Shrimp Chili Paste + Malay Pickle + Lime Pickle value package.",
+                ingredients_si: "තෝරාගත් නිෂ්පාදන 3ක එකතුව",
+                ingredients_en: "Combination of 3 signature products"
+            }
+        ];
+
+        // State Management
+        let cart = [];
+        let activeCategory = 'all';
+        let discountPercent = 0;
+
+        // Render Chili level icons
+        function getSpiceMeterHTML(level) {
+            let icons = '';
+            for (let i = 0; i < level; i++) {
+                icons += '🌶️';
+            }
+            return icons;
+        }
+
+        // Language Switcher Function
+        function toggleLanguage() {
+            currentLang = currentLang === 'si' ? 'en' : 'si';
+            document.getElementById('langText').innerText = currentLang === 'si' ? 'EN' : 'සිංහල';
+            
+            // Update static elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerText = i18n[currentLang][key];
+                }
+            });
+
+            // Update Dynamic Product Display
+            renderProducts();
+            updateHeroText();
+            updateCartUI();
+            
+            showToast(currentLang === 'si' ? "භාෂාව සිංහලට මාරු විය!" : "Switched to English language!");
+        }
+
+        function updateHeroText() {
+            const prod = products[0];
+            document.getElementById('heroProdTitle').innerText = currentLang === 'si' ? prod.name_si : prod.name_en;
+            document.getElementById('heroProdDesc').innerText = currentLang === 'si' ? prod.desc_si : prod.desc_en;
+        }
+
+        // Render Product Grid
+        function renderProducts(itemsToRender = null) {
+            const list = itemsToRender || getFilteredProducts();
+            const container = document.getElementById('productGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (list.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            container.innerHTML = list.map(p => {
+                const name = currentLang === 'si' ? p.name_si : p.name_en;
+                const desc = currentLang === 'si' ? p.desc_si : p.desc_en;
+                const priceLbl = i18n[currentLang].lblPrice;
+                const btnAdd = i18n[currentLang].btnAddToCart;
+
+                return `
+                <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden">
+                    <div>
+                        <!-- Image Container -->
+                        <div class="relative h-48 w-full rounded-2xl overflow-hidden mb-4 bg-black/40 cursor-pointer" onclick="openQuickView(${p.id})">
+                            <img src="${p.image}" alt="${name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 glass-panel px-3 py-1 rounded-full text-xs font-bold text-orange-300">
+                                ${p.weight}
+                            </div>
+                            <div class="absolute top-3 right-3 bg-red-950/80 border border-red-700/50 px-2.5 py-1 rounded-full text-xs font-extrabold text-red-400">
+                                ${getSpiceMeterHTML(p.spiceLevel)}
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-xl font-bold font-sinhala text-white leading-snug cursor-pointer hover:text-orange-400 transition-colors" onclick="openQuickView(${p.id})">${name}</h3>
+                            <p class="text-xs text-gray-400 font-sinhala line-clamp-2">${desc}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-red-900/30 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-gray-500 uppercase block font-semibold">${priceLbl}</span>
+                            <span class="text-xl font-black text-amber-400">Rs. ${p.price.toLocaleString()}</span>
+                        </div>
+
+                        <button onclick="addToCart(${p.id})" class="bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-500 hover:to-orange-400 text-white font-bold px-4 py-2 rounded-xl text-xs font-sinhala shadow-lg active:scale-95 transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-plus"></i> ${btnAdd}
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function getFilteredProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            return products.filter(p => {
+                const matchesCat = (activeCategory === 'all' || p.category === activeCategory);
+                const name = currentLang === 'si' ? p.name_si : p.name_en;
+                const desc = currentLang === 'si' ? p.desc_si : p.desc_en;
+                const matchesSearch = name.toLowerCase().includes(query) || desc.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
+            });
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+            
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-orange-600', 'to-red-600', 'text-white', 'shadow-lg');
+                btn.classList.add('glass-panel', 'text-gray-300');
+            });
+            
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('glass-panel', 'text-gray-300');
+                activeBtn.classList.add('bg-gradient-to-r', 'from-orange-600', 'to-red-600', 'text-white', 'shadow-lg');
+            }
+
+            renderProducts();
+        }
+
+        function searchProducts() {
+            renderProducts();
+        }
+
+        // Quick View Modal
+        function openQuickView(productId) {
+            const p = products.find(prod => prod.id === productId);
+            if (!p) return;
+
+            document.getElementById('qvImage').src = p.image;
+            document.getElementById('qvTitle').innerText = currentLang === 'si' ? p.name_si : p.name_en;
+            document.getElementById('qvDesc').innerText = currentLang === 'si' ? p.desc_si : p.desc_en;
+            document.getElementById('qvWeight').innerText = p.weight;
+            document.getElementById('qvIngredients').innerText = currentLang === 'si' ? p.ingredients_si : p.ingredients_en;
+            document.getElementById('qvPrice').innerText = `Rs. ${p.price.toLocaleString()}`;
+            document.getElementById('qvSpiceMeter').innerHTML = `${getSpiceMeterHTML(p.spiceLevel)} Heat Level`;
+            
+            document.getElementById('qvAddToCartBtn').onclick = function() {
+                addToCart(p.id);
+                closeQuickView();
+            };
+
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.remove('invisible', 'opacity-0');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quickViewModal');
+            modal.classList.add('invisible', 'opacity-0');
+        }
+
+        // Quiz Logic
+        function selectSpiceLevel(lvl) {
+            document.querySelectorAll('.spice-opt-btn').forEach(b => b.classList.remove('ring-2', 'ring-orange-500', 'bg-orange-950/60'));
+            const btn = document.getElementById(`spiceLvl${lvl}`);
+            if (btn) btn.classList.add('ring-2', 'ring-orange-500', 'bg-orange-950/60');
+
+            let recommendedProduct = products.find(p => p.spiceLevel === lvl) || products[0];
+
+            const name = currentLang === 'si' ? recommendedProduct.name_si : recommendedProduct.name_en;
+            const desc = currentLang === 'si' ? recommendedProduct.desc_si : recommendedProduct.desc_en;
+
+            document.getElementById('recommendedTitle').innerText = name;
+            document.getElementById('recommendedDesc').innerText = desc;
+            document.getElementById('recommendedPrice').innerText = `Rs. ${recommendedProduct.price.toLocaleString()}`;
+            document.getElementById('recommendedImage').innerHTML = `<img src="${recommendedProduct.image}" class="w-full h-full object-cover">`;
+            document.getElementById('addRecommendedBtn').setAttribute('onclick', `addToCart(${recommendedProduct.id})`);
+        }
+
+        // Cart Engine
+        function addToCart(productId) {
+            const item = products.find(p => p.id === productId);
+            if (!item) return;
+
+            const existingIndex = cart.findIndex(c => c.id === productId);
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCartUI();
+            const title = currentLang === 'si' ? item.name_si : item.name_en;
+            showToast(`"${title}" ${currentLang === 'si' ? 'Cart එකට එකතු විය! 🌶️' : 'added to Cart!'}`);
+        }
+
+        function updateQuantity(productId, delta) {
+            const index = cart.findIndex(c => c.id === productId);
+            if (index > -1) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function applyPromo() {
+            const val = document.getElementById('promoInput').value.trim().toUpperCase();
+            if (val === 'GINI10') {
+                discountPercent = 10;
+                document.getElementById('discountRow').classList.remove('hidden');
+                showToast("10% Discount Code Applied!");
+            } else {
+                showToast("Invalid Promo Code. Try GINI10");
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const discountAmt = Math.round((subtotal * discountPercent) / 100);
+            const finalTotal = subtotal - discountAmt;
+
+            document.getElementById('cartCount').innerText = totalCount;
+            document.getElementById('cartSubtotal').innerText = `Rs. ${subtotal.toLocaleString()}`;
+            document.getElementById('cartDiscount').innerText = `-Rs. ${discountAmt.toLocaleString()}`;
+            document.getElementById('cartTotal').innerText = `Rs. ${finalTotal.toLocaleString()}`;
+
+            const listContainer = document.getElementById('cartItemsList');
+            if (cart.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-10 space-y-2">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-gray-600"></i>
+                        <p class="text-sm font-sinhala text-gray-400">${currentLang === 'si' ? 'ඔබගේ Cart එක හිස්ව පවතී.' : 'Your cart is empty.'}</p>
+                    </div>
+                `;
+            } else {
+                listContainer.innerHTML = cart.map(item => {
+                    const name = currentLang === 'si' ? item.name_si : item.name_en;
+                    return `
+                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between gap-3">
+                        <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-xs font-bold text-white font-sinhala truncate">${name}</h4>
+                            <span class="text-xs text-amber-400 font-bold">Rs. ${item.price.toLocaleString()}</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-black/40 px-2 py-1 rounded-xl">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-xs text-orange-400 hover:text-white px-1 font-bold">-</button>
+                            <span class="text-xs font-bold text-white">${item.qty}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-xs text-orange-400 hover:text-white px-1 font-bold">+</button>
+                        </div>
+                    </div>
+                `}).join('');
+            }
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const container = document.getElementById('cartContainer');
+            
+            if (drawer.classList.contains('invisible')) {
+                drawer.classList.remove('invisible', 'opacity-0');
+                container.classList.remove('translate-x-full');
+            } else {
+                container.classList.add('translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('invisible', 'opacity-0');
+                }, 300);
+            }
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                showToast(currentLang === 'si' ? "පළමුව Cart එකට කෑම වර්ග එකතු කරන්න." : "Please add items to cart first.");
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim() || 'Not specified';
+            const address = document.getElementById('custAddress').value.trim() || 'Not specified';
+
+            let orderSummary = "🌶️ *NEW ORDER - GINI RASA WEBSITE* 🌶️\n\n";
+            orderSummary += `👤 *Customer Name:* ${name}\n`;
+            orderSummary += `📍 *Address / Phone:* ${address}\n\n`;
+            orderSummary += "📦 *ORDER ITEMS:*\n";
+
+            let subtotal = 0;
+            cart.forEach((item, index) => {
+                const itemName = currentLang === 'si' ? item.name_si : item.name_en;
+                const lineTotal = item.price * item.qty;
+                subtotal += lineTotal;
+                orderSummary += `${index + 1}. ${itemName} (${item.weight}) x ${item.qty} = Rs. ${lineTotal}\n`;
+            });
+
+            const discountAmt = Math.round((subtotal * discountPercent) / 100);
+            const total = subtotal - discountAmt;
+
+            if (discountPercent > 0) {
+                orderSummary += `\n🏷️ *Discount (${discountPercent}%):* -Rs. ${discountAmt}`;
+            }
+            orderSummary += `\n💰 *TOTAL AMOUNT:* Rs. ${total.toLocaleString()}\n`;
+            orderSummary += "-----------------------------------\n";
+            orderSummary += "Please confirm my order and send delivery details. Thank you!";
+
+            const encodedMessage = encodeURIComponent(orderSummary);
+            const whatsappURL = `https://wa.me/94771234567?text=${encodedMessage}`;
+
+            window.open(whatsappURL, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3200);
+        }
+
+        // Particle Canvas Animation Engine
+        function initFireCanvas() {
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const particles = [];
+            const particleCount = 45;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 3 + 1,
+                    color: Math.random() > 0.5 ? 'rgba(249, 115, 22, ' : 'rgba(220, 38, 38, ',
+                    alpha: Math.random(),
+                    speedY: Math.random() * 1.5 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.8
+                });
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    p.y -= p.speedY;
+                    p.x += p.speedX;
+                    p.alpha -= 0.003;
+
+                    if (p.y < 0 || p.alpha <= 0) {
+                        p.y = canvas.height + 10;
+                        p.x = Math.random() * canvas.width;
+                        p.alpha = Math.random() * 0.8 + 0.2;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + p.alpha + ')';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#f97316';
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animateParticles);
+            }
+
+            animateParticles();
+        }
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            renderProducts(products);
+            updateHeroText();
+            initFireCanvas();
+            
+            // Mobile navigation toggle
+            document.getElementById('mobileMenuToggle').onclick = function() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            };
+
+            // Cart toggle click
+            document.getElementById('cartBtn').onclick = toggleCart;
+        };
+    </script>
+</body>
+</html>
